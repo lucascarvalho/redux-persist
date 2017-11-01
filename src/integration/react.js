@@ -35,9 +35,12 @@ export class PersistGate extends PureComponent<Props, State> {
     const { persistor } = this.props
     let { bootstrapped } = persistor.getState()
     if (bootstrapped) {
-      this.props.onBeforeLift && this.props.onBeforeLift()
-      this.setState({ bootstrapped: true })
-      this._unsubscribe && this._unsubscribe()
+      this.props.onBeforeLift &&
+        this.props.onBeforeLift().
+          then(() => {
+            this.setState({ bootstrapped: true })
+            this._unsubscribe && this._unsubscribe()
+          })
     }
   }
 
